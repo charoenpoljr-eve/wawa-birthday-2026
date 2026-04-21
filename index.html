@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Plan Your Birthday Date 🎂</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --rose: #f4a7b9;
+    --rose-deep: #e07a95;
+    --blush: #fce4ec;
+    --cream: #fff8f5;
+    --petal: #fdf0f5;
+    --text: #5a3a47;
+    --text-light: #9e7287;
+    --white: #ffffff;
+    --shadow: 0 8px 32px rgba(224, 122, 149, 0.15);
+    --shadow-lg: 0 16px 48px rgba(224, 122, 149, 0.22);
+    --radius: 20px;
+    --radius-sm: 12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── Background petals ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 15% 20%, rgba(244,167,185,0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 35% at 85% 75%, rgba(252,228,236,0.3) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 30% at 50% 50%, rgba(253,240,245,0.4) 0%, transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+
+  .page { position: relative; z-index: 1; }
+
+  /* ── Floating hearts bg ── */
+  .hearts-bg {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
+  }
+  .hearts-bg span {
+    position: absolute; display: block; font-size: 1.4rem; opacity: 0;
+    animation: floatUp 8s infinite ease-in;
+  }
+  @keyframes floatUp {
+    0%   { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    10%  { opacity: 0.4; }
+    90%  { opacity: 0.2; }
+    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+  }
+
+  /* ── LANDING ── */
+  #landing {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 2rem 1.5rem; text-align: center;
+  }
+
+  .badge {
+    display: inline-flex; align-items: center; gap: .4rem;
+    background: var(--white); border: 1.5px solid var(--rose);
+    color: var(--rose-deep); padding: .4rem 1rem;
+    border-radius: 999px; font-size: .85rem; font-weight: 500;
+    margin-bottom: .5rem; letter-spacing: .02em;
+    box-shadow: 0 2px 12px rgba(224,122,149,.12);
+    animation: popIn .6s cubic-bezier(.34,1.56,.64,1) both;
+  }
+  .badge:nth-child(2) { animation-delay: .15s; }
+
+  @keyframes popIn {
+    from { opacity:0; transform: scale(.7) translateY(10px); }
+    to   { opacity:1; transform: scale(1) translateY(0); }
+  }
+
+  .landing-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 8vw, 3.8rem);
+    color: var(--text);
+    line-height: 1.15;
+    margin: 1.2rem 0 .7rem;
+    animation: slideUp .8s .3s cubic-bezier(.22,1,.36,1) both;
+  }
+
+  .landing-sub {
+    font-size: 1.05rem; color: var(--text-light);
+    font-weight: 300; max-width: 320px;
+    line-height: 1.7; margin-bottom: 2.2rem;
+    animation: slideUp .8s .45s cubic-bezier(.22,1,.36,1) both;
+  }
+
+  @keyframes slideUp {
+    from { opacity:0; transform: translateY(30px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+
+  .landing-art {
+    font-size: 5rem; margin-bottom: 1rem;
+    animation: float 3s ease-in-out infinite, popIn .7s .1s both;
+    display: block;
+  }
+  @keyframes float {
+    0%,100% { transform: translateY(0) rotate(-3deg); }
+    50%      { transform: translateY(-12px) rotate(3deg); }
+  }
+
+  /* ── BUTTONS ── */
+  .btn {
+    display: inline-flex; align-items: center; gap: .5rem;
+    padding: .9rem 2.2rem; border-radius: 999px;
+    font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 500;
+    border: none; cursor: pointer; transition: all .25s ease;
+    letter-spacing: .01em;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--rose-deep), #c45f80);
+    color: white; box-shadow: 0 6px 24px rgba(196,95,128,.35);
+    animation: slideUp .8s .6s both;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(196,95,128,.45); }
+  .btn-primary:active { transform: translateY(0); }
+
+  .btn-soft {
+    background: var(--white); color: var(--rose-deep);
+    border: 1.5px solid var(--rose); box-shadow: var(--shadow);
+  }
+  .btn-soft:hover { background: var(--blush); transform: translateY(-1px); }
+
+  .btn-outline {
+    background: transparent; color: var(--rose-deep);
+    border: 1.5px dashed var(--rose); font-size: .9rem; padding: .6rem 1.2rem;
+  }
+  .btn-outline:hover { background: var(--blush); }
+
+  /* ── FORM SECTION ── */
+  #form-section {
+    display: none; padding: 1.5rem 1.2rem 4rem; max-width: 520px; margin: 0 auto;
+  }
+
+  .form-header {
+    text-align: center; margin-bottom: 2rem;
+    padding: 1.5rem 1rem;
+  }
+  .form-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem; color: var(--text); margin-bottom: .4rem;
+  }
+  .form-header p { color: var(--text-light); font-size: .95rem; }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--white); border-radius: var(--radius);
+    padding: 1.4rem 1.3rem; margin-bottom: 1.2rem;
+    box-shadow: var(--shadow); border: 1px solid rgba(244,167,185,.25);
+    transition: box-shadow .3s;
+  }
+  .card:hover { box-shadow: var(--shadow-lg); }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; color: var(--text);
+    margin-bottom: 1rem; display: flex; align-items: center; gap: .4rem;
+  }
+
+  /* ── INPUTS ── */
+  label { display: block; font-size: .85rem; color: var(--text-light); margin-bottom: .3rem; font-weight: 500; }
+
+  input[type="date"],
+  input[type="time"],
+  input[type="text"],
+  textarea {
+    width: 100%; padding: .75rem 1rem;
+    border: 1.5px solid rgba(244,167,185,.5);
+    border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif;
+    font-size: .95rem; color: var(--text); background: var(--petal);
+    outline: none; transition: border-color .2s, box-shadow .2s;
+    resize: vertical;
+  }
+  input:focus, textarea:focus {
+    border-color: var(--rose-deep);
+    box-shadow: 0 0 0 3px rgba(224,122,149,.15);
+    background: var(--white);
+  }
+
+  .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; }
+
+  /* ── OPTION CARDS ── */
+  .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; }
+  .option-card {
+    border: 2px solid rgba(244,167,185,.35);
+    border-radius: var(--radius-sm); padding: .9rem .7rem;
+    cursor: pointer; text-align: center; background: var(--petal);
+    transition: all .2s; user-select: none;
+  }
+  .option-card:hover { border-color: var(--rose); background: var(--blush); }
+  .option-card.selected {
+    border-color: var(--rose-deep);
+    background: linear-gradient(135deg, #fce4ec, #fdf0f5);
+    box-shadow: 0 4px 16px rgba(224,122,149,.2);
+  }
+  .option-card .emoji { font-size: 1.8rem; display: block; margin-bottom: .3rem; }
+  .option-card .label { font-size: .82rem; color: var(--text); font-weight: 500; }
+
+  .other-input-wrap { margin-top: .7rem; display: none; }
+  .other-input-wrap.visible { display: block; }
+
+  /* ── DYNAMIC FIELDS ── */
+  .dynamic-list { display: flex; flex-direction: column; gap: .5rem; }
+  .field-row { display: flex; gap: .4rem; align-items: center; }
+  .field-row input { flex: 1; }
+  .remove-btn {
+    background: none; border: none; color: var(--rose-deep);
+    font-size: 1.2rem; cursor: pointer; padding: .3rem; line-height: 1;
+    flex-shrink: 0; opacity: .7; transition: opacity .2s;
+  }
+  .remove-btn:hover { opacity: 1; }
+
+  .add-btn-wrap { margin-top: .6rem; }
+
+  /* ── PROGRESS ── */
+  .progress-bar {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(255,248,245,.9); backdrop-filter: blur(8px);
+    padding: .6rem 1.2rem; border-bottom: 1px solid rgba(244,167,185,.2);
+  }
+  .progress-track {
+    height: 4px; background: rgba(244,167,185,.25); border-radius: 2px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; border-radius: 2px;
+    background: linear-gradient(90deg, var(--rose), var(--rose-deep));
+    transition: width .5s cubic-bezier(.22,1,.36,1);
+    width: 0%;
+  }
+  .progress-label { font-size: .75rem; color: var(--text-light); margin-bottom: .3rem; text-align: right; }
+
+  /* ── SUBMIT ── */
+  .submit-wrap { text-align: center; padding-top: .5rem; }
+  .submit-wrap .btn-primary { width: 100%; justify-content: center; font-size: 1.05rem; padding: 1rem; }
+
+  /* ── SUMMARY ── */
+  #summary-section {
+    display: none; padding: 1.5rem 1.2rem 4rem; max-width: 520px; margin: 0 auto;
+  }
+
+  .summary-hero {
+    text-align: center; padding: 2rem 1rem 1.5rem;
+    background: linear-gradient(145deg, #fce4ec, #fff0f5);
+    border-radius: var(--radius); margin-bottom: 1.2rem;
+    border: 1px solid rgba(244,167,185,.3); position: relative; overflow: hidden;
+  }
+  .summary-hero::before {
+    content: '🌸'; position: absolute; font-size: 8rem; opacity: .07;
+    top: -1rem; right: -1rem;
+  }
+  .summary-hero h2 {
+    font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--text);
+    margin-bottom: .4rem;
+  }
+  .summary-hero p { color: var(--text-light); font-size: .95rem; }
+  .confetti-row { font-size: 1.6rem; letter-spacing: .3rem; margin-bottom: .5rem; }
+
+  .summary-card {
+    background: var(--white); border-radius: var(--radius);
+    padding: 1.3rem; margin-bottom: 1rem;
+    box-shadow: var(--shadow); border: 1px solid rgba(244,167,185,.2);
+  }
+  .summary-row { display: flex; gap: .7rem; align-items: flex-start; padding: .5rem 0; border-bottom: 1px solid rgba(244,167,185,.15); }
+  .summary-row:last-child { border-bottom: none; }
+  .summary-row .s-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: .1rem; }
+  .summary-row .s-label { font-size: .78rem; color: var(--text-light); font-weight: 500; text-transform: uppercase; letter-spacing: .05em; }
+  .summary-row .s-val { font-size: .95rem; color: var(--text); }
+
+  .hidden-msg {
+    text-align: center; font-family: 'Playfair Display', serif; font-style: italic;
+    color: var(--rose-deep); font-size: 1.05rem;
+    padding: 1.2rem; opacity: 0;
+    animation: fadeInMsg 1s 1.2s both;
+  }
+  @keyframes fadeInMsg { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+  .action-row { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; margin-top: 1rem; }
+  .action-row .btn { justify-content: center; }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px);
+    background: var(--text); color: white;
+    padding: .7rem 1.4rem; border-radius: 999px; font-size: .9rem;
+    box-shadow: 0 8px 24px rgba(0,0,0,.2); z-index: 999;
+    transition: transform .4s cubic-bezier(.34,1.56,.64,1);
+    white-space: nowrap;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* ── TRANSITION ── */
+  .section-enter { animation: sectionIn .6s cubic-bezier(.22,1,.36,1) both; }
+  @keyframes sectionIn {
+    from { opacity:0; transform:translateY(40px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+  .sparkle-btn {
+    position: relative; overflow: hidden;
+  }
+  .sparkle-btn::after {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle at var(--x,50%) var(--y,50%), rgba(255,255,255,.3) 0%, transparent 60%);
+    opacity: 0; transition: opacity .3s;
+  }
+  .sparkle-btn:hover::after { opacity: 1; }
+</style>
+</head>
+<body>
+
+<!-- Floating hearts -->
+<div class="hearts-bg" id="heartsBg"></div>
+<div class="toast" id="toast"></div>
+
+<!-- ════════ LANDING ════════ -->
+<section id="landing" class="page">
+  <span class="landing-art">🎂</span>
+  <div class="badge">💖 For Wawa</div>
+  <div class="badge">✨ from Eve (Developer)</div>
+  <h1 class="landing-title">Plan Your<br/>Birthday Date</h1>
+  <p class="landing-sub">Design your perfect day,<br/>I'll make it happen 💕</p>
+  <button class="btn btn-primary sparkle-btn" onclick="startPlanning()">
+    Let's Plan ✨
+  </button>
+</section>
+
+<!-- ════════ FORM ════════ -->
+<section id="form-section" class="page">
+  <div class="progress-bar">
+    <div class="progress-label" id="progressLabel">Getting started…</div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <div class="form-header">
+    <h2>Your Perfect Day 💕</h2>
+    <p>Every detail matters, my love</p>
+  </div>
+
+  <!-- A. Date & Time -->
+  <div class="card">
+    <div class="card-title">🗓️ Date & Time</div>
+    <div class="input-row">
+      <div>
+        <label>Date</label>
+        <input type="date" id="dateInput" onchange="updateProgress()" />
+      </div>
+      <div>
+        <label>Time</label>
+        <input type="time" id="timeInput" onchange="updateProgress()" />
+      </div>
+    </div>
+  </div>
+
+  <!-- B. Restaurant -->
+  <div class="card">
+    <div class="card-title">🍽️ Restaurant</div>
+    <div class="options-grid" id="restGrid">
+      <div class="option-card" onclick="selectOption('rest','Nobu 🍣')" data-val="Nobu 🍣">
+        <span class="emoji">🍣</span><span class="label">Nobu</span>
+      </div>
+      <div class="option-card" onclick="selectOption('rest','Le Normandie 🥂')" data-val="Le Normandie 🥂">
+        <span class="emoji">🥂</span><span class="label">Le Normandie</span>
+      </div>
+      <div class="option-card" onclick="selectOption('rest','Rooftop Bistro 🌆')" data-val="Rooftop Bistro 🌆">
+        <span class="emoji">🌆</span><span class="label">Rooftop Bistro</span>
+      </div>
+      <div class="option-card" onclick="selectOption('rest','other')" data-val="other">
+        <span class="emoji">✏️</span><span class="label">Other</span>
+      </div>
+    </div>
+    <div class="other-input-wrap" id="restOther">
+      <label>Tell me where 💕</label>
+      <input type="text" id="restOtherInput" placeholder="e.g. our favourite spot…" oninput="updateProgress()" />
+    </div>
+  </div>
+
+  <!-- C. Cake -->
+  <div class="card">
+    <div class="card-title">🎂 Cake</div>
+    <div class="options-grid" id="cakeGrid">
+      <div class="option-card" onclick="selectOption('cake','Strawberry Shortcake 🍓')" data-val="Strawberry Shortcake 🍓">
+        <span class="emoji">🍓</span><span class="label">Strawberry Shortcake</span>
+      </div>
+      <div class="option-card" onclick="selectOption('cake','Matcha Layered 🍵')" data-val="Matcha Layered 🍵">
+        <span class="emoji">🍵</span><span class="label">Matcha Layered</span>
+      </div>
+      <div class="option-card" onclick="selectOption('cake','Chocolate Lava 🍫')" data-val="Chocolate Lava 🍫">
+        <span class="emoji">🍫</span><span class="label">Chocolate Lava</span>
+      </div>
+      <div class="option-card" onclick="selectOption('cake','custom')" data-val="custom">
+        <span class="emoji">🎨</span><span class="label">Custom</span>
+      </div>
+    </div>
+    <div class="other-input-wrap" id="cakeOther">
+      <label>Describe your dream cake 🎂</label>
+      <input type="text" id="cakeOtherInput" placeholder="e.g. vanilla with rose petals…" oninput="updateProgress()" />
+    </div>
+  </div>
+
+  <!-- D. Gifts -->
+  <div class="card">
+    <div class="card-title">🎁 Gift Wishes</div>
+    <div class="dynamic-list" id="giftList"></div>
+    <div class="add-btn-wrap">
+      <button class="btn btn-outline" onclick="addField('gift')">+ Add another gift</button>
+    </div>
+  </div>
+
+  <!-- E. Extra Wishes -->
+  <div class="card">
+    <div class="card-title">🌟 Extra Wishes</div>
+    <div class="dynamic-list" id="wishList"></div>
+    <div class="add-btn-wrap">
+      <button class="btn btn-outline" onclick="addField('wish')">+ Add a wish</button>
+    </div>
+  </div>
+
+  <!-- F. Note -->
+  <div class="card">
+    <div class="card-title">💌 A Note to Eve</div>
+    <label>Anything else on your heart?</label>
+    <textarea id="noteInput" rows="4" placeholder="Write anything… I'll read every word 💕" oninput="updateProgress()"></textarea>
+  </div>
+
+  <div class="submit-wrap">
+    <button class="btn btn-primary sparkle-btn" style="width:100%;justify-content:center;font-size:1.05rem;padding:1rem;" onclick="submitPlan()">
+      Lock My Birthday Plan 💖
+    </button>
+  </div>
+</section>
+
+<!-- ════════ SUMMARY ════════ -->
+<section id="summary-section" class="page">
+  <div class="summary-hero">
+    <div class="confetti-row" id="confettiRow">🌸 🎂 💕</div>
+    <h2>It's All Planned!</h2>
+    <p>Wawa's perfect birthday awaits 💖</p>
+  </div>
+
+  <div class="summary-card" id="summaryContent"></div>
+
+  <p class="hidden-msg">✨ I just want to make your day perfect 💕</p>
+
+  <div class="action-row">
+    <button class="btn btn-soft" onclick="copyPlan()">📋 Copy Plan</button>
+    <button class="btn btn-soft" onclick="editAgain()">✏️ Edit Again</button>
+  </div>
+</section>
+
+<script>
+  // ── State ──
+  const state = {
+    rest: '', cake: '',
+    gifts: [], wishes: []
+  };
+
+  // ── Hearts bg ──
+  (function spawnHearts() {
+    const wrap = document.getElementById('heartsBg');
+    const emojis = ['💕','🌸','✨','💖','🌷'];
+    for (let i = 0; i < 12; i++) {
+      const s = document.createElement('span');
+      s.textContent = emojis[i % emojis.length];
+      s.style.left = Math.random() * 100 + 'vw';
+      s.style.animationDelay = (Math.random() * 8) + 's';
+      s.style.animationDuration = (6 + Math.random() * 6) + 's';
+      s.style.fontSize = (.7 + Math.random() * 1.2) + 'rem';
+      wrap.appendChild(s);
+    }
+  })();
+
+  // ── Init dynamic fields ──
+  function addField(type) {
+    const listId = type === 'gift' ? 'giftList' : 'wishList';
+    const placeholder = type === 'gift' ? 'e.g. a bouquet of peonies 🌸' : 'e.g. watch the sunset together 🌅';
+    const list = document.getElementById(listId);
+    const row = document.createElement('div');
+    row.className = 'field-row';
+    const inp = document.createElement('input');
+    inp.type = 'text'; inp.placeholder = placeholder;
+    inp.oninput = updateProgress;
+    const rm = document.createElement('button');
+    rm.className = 'remove-btn'; rm.textContent = '×';
+    rm.onclick = () => { row.remove(); updateProgress(); };
+    row.appendChild(inp); row.appendChild(rm);
+    list.appendChild(row);
+    inp.focus();
+    updateProgress();
+  }
+
+  // ── Select preset ──
+  function selectOption(type, val) {
+    const gridId = type === 'rest' ? 'restGrid' : 'cakeGrid';
+    const otherId = type === 'rest' ? 'restOther' : 'cakeOther';
+    document.querySelectorAll(`#${gridId} .option-card`).forEach(c => c.classList.remove('selected'));
+    const clicked = [...document.querySelectorAll(`#${gridId} .option-card`)].find(c => c.dataset.val === val);
+    if (clicked) clicked.classList.add('selected');
+    const otherWrap = document.getElementById(otherId);
+    if (val === 'other' || val === 'custom') {
+      otherWrap.classList.add('visible');
+      state[type] = '';
+    } else {
+      otherWrap.classList.remove('visible');
+      state[type] = val;
+    }
+    updateProgress();
+  }
+
+  // ── Progress ──
+  function updateProgress() {
+    const date = document.getElementById('dateInput').value;
+    const time = document.getElementById('timeInput').value;
+    const note = document.getElementById('noteInput').value;
+    let score = 0, total = 5;
+    if (date) score++;
+    if (time) score++;
+    if (state.rest || document.getElementById('restOtherInput').value) score++;
+    if (state.cake || document.getElementById('cakeOtherInput').value) score++;
+    const gifts = [...document.querySelectorAll('#giftList input')].filter(i=>i.value.trim());
+    if (gifts.length) score++;
+    else total = 4;
+    const pct = Math.round((score / total) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    const labels = ['Getting started…','Looking good! 💕','You\'re halfway there ✨','Almost done! 🌸','Perfect plan! 💖'];
+    document.getElementById('progressLabel').textContent = labels[Math.min(Math.floor(pct/25), 4)];
+  }
+
+  // ── Start ──
+  function startPlanning() {
+    document.getElementById('landing').style.display = 'none';
+    const fs = document.getElementById('form-section');
+    fs.style.display = 'block';
+    fs.classList.add('section-enter');
+    // Pre-populate from localStorage
+    const saved = localStorage.getItem('bday-plan');
+    if (saved) {
+      try {
+        const d = JSON.parse(saved);
+        if (d.date) document.getElementById('dateInput').value = d.date;
+        if (d.time) document.getElementById('timeInput').value = d.time;
+        if (d.note) document.getElementById('noteInput').value = d.note;
+        if (d.rest) {
+          if (['Nobu 🍣','Le Normandie 🥂','Rooftop Bistro 🌆'].includes(d.rest)) {
+            selectOption('rest', d.rest);
+          } else {
+            selectOption('rest', 'other');
+            document.getElementById('restOtherInput').value = d.rest;
+          }
+        }
+        if (d.cake) {
+          if (['Strawberry Shortcake 🍓','Matcha Layered 🍵','Chocolate Lava 🍫'].includes(d.cake)) {
+            selectOption('cake', d.cake);
+          } else {
+            selectOption('cake', 'custom');
+            document.getElementById('cakeOtherInput').value = d.cake;
+          }
+        }
+        (d.gifts||[]).forEach(g => { addField('gift'); const inp = document.querySelector('#giftList .field-row:last-child input'); if(inp) inp.value = g; });
+        (d.wishes||[]).forEach(w => { addField('wish'); const inp = document.querySelector('#wishList .field-row:last-child input'); if(inp) inp.value = w; });
+      } catch(e) {}
+    }
+    // Add initial fields if empty
+    if (!document.querySelector('#giftList .field-row')) addField('gift');
+    if (!document.querySelector('#wishList .field-row')) addField('wish');
+    updateProgress();
+  }
+
+  // ── Submit ──
+  function submitPlan() {
+    const date = document.getElementById('dateInput').value;
+    const time = document.getElementById('timeInput').value;
+    const rest = state.rest || document.getElementById('restOtherInput').value.trim();
+    const cake = state.cake || document.getElementById('cakeOtherInput').value.trim();
+    const gifts = [...document.querySelectorAll('#giftList input')].map(i=>i.value.trim()).filter(Boolean);
+    const wishes = [...document.querySelectorAll('#wishList input')].map(i=>i.value.trim()).filter(Boolean);
+    const note = document.getElementById('noteInput').value.trim();
+
+    if (!date || !time) { showToast('Please pick a date & time 💕'); return; }
+    if (!rest) { showToast('Choose a restaurant 🍽️'); return; }
+
+    const plan = { date, time, rest, cake, gifts, wishes, note };
+    localStorage.setItem('bday-plan', JSON.stringify(plan));
+
+    // Build summary
+    const fmtDate = new Date(date + 'T00:00').toLocaleDateString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+    const fmtTime = (() => {
+      const [h,m] = time.split(':'); const hh = +h; const ampm = hh >= 12 ? 'PM' : 'AM';
+      return `${hh%12||12}:${m} ${ampm}`;
+    })();
+
+    let rows = `
+      <div class="summary-row"><span class="s-icon">🗓️</span><div><div class="s-label">Date & Time</div><div class="s-val">${fmtDate} at ${fmtTime}</div></div></div>
+      <div class="summary-row"><span class="s-icon">🍽️</span><div><div class="s-label">Restaurant</div><div class="s-val">${rest}</div></div></div>
+      <div class="summary-row"><span class="s-icon">🎂</span><div><div class="s-label">Cake</div><div class="s-val">${cake || 'Surprise me! 🎊'}</div></div></div>
+    `;
+    if (gifts.length) rows += `<div class="summary-row"><span class="s-icon">🎁</span><div><div class="s-label">Gifts</div><div class="s-val">${gifts.join('<br/>')}</div></div></div>`;
+    if (wishes.length) rows += `<div class="summary-row"><span class="s-icon">🌟</span><div><div class="s-label">Wishes</div><div class="s-val">${wishes.join('<br/>')}</div></div></div>`;
+    if (note) rows += `<div class="summary-row"><span class="s-icon">💌</span><div><div class="s-label">Note</div><div class="s-val">${note}</div></div></div>`;
+
+    document.getElementById('summaryContent').innerHTML = rows;
+
+    document.getElementById('form-section').style.display = 'none';
+    const ss = document.getElementById('summary-section');
+    ss.style.display = 'block';
+    ss.classList.add('section-enter');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Animate confetti row
+    const confetti = ['🌸 🎂 💕','🎊 💖 ✨','🌷 🎉 💗'];
+    let ci = 0;
+    setInterval(() => {
+      document.getElementById('confettiRow').textContent = confetti[ci++ % confetti.length];
+    }, 1500);
+  }
+
+  // ── Copy ──
+  function copyPlan() {
+    const saved = JSON.parse(localStorage.getItem('bday-plan') || '{}');
+    const lines = [
+      '💖 Wawa\'s Birthday Date Plan 💖',
+      '──────────────────────────',
+      `🗓️  Date: ${saved.date || ''}  ⏰ Time: ${saved.time || ''}`,
+      `🍽️  Restaurant: ${saved.rest || ''}`,
+      `🎂  Cake: ${saved.cake || 'Surprise!'}`,
+      saved.gifts?.length ? `🎁  Gifts:\n   • ${saved.gifts.join('\n   • ')}` : '',
+      saved.wishes?.length ? `🌟  Wishes:\n   • ${saved.wishes.join('\n   • ')}` : '',
+      saved.note ? `💌  Note: ${saved.note}` : '',
+      '──────────────────────────',
+      '✨ I just want to make your day perfect 💕',
+      '  — Eve (Developer)'
+    ].filter(Boolean).join('\n');
+    navigator.clipboard.writeText(lines).then(() => showToast('Plan copied! 💕')).catch(()=> showToast('Copy failed 😢'));
+  }
+
+  // ── Edit ──
+  function editAgain() {
+    document.getElementById('summary-section').style.display = 'none';
+    document.getElementById('form-section').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ── Toast ──
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
+  }
+
+  // ── Sparkle mouse ──
+  document.querySelectorAll('.sparkle-btn').forEach(btn => {
+    btn.addEventListener('mousemove', e => {
+      const r = btn.getBoundingClientRect();
+      btn.style.setProperty('--x', ((e.clientX - r.left) / r.width * 100) + '%');
+      btn.style.setProperty('--y', ((e.clientY - r.top) / r.height * 100) + '%');
+    });
+  });
+</script>
+</body>
+</html>
