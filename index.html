@@ -380,15 +380,14 @@
 <div class="card-title">🗓️ Date & Time</div>
 
 <div class="input-row">
-  <div>
-    <label>Date</label>
-    <input type="date" id="dateInput" onchange="updateProgress()" />
-  </div>
-
-  <div>
-    <label>Time</label>
-    <input type="time" id="timeInput" onchange="updateProgress()" />
-  </div>
+<div>
+  <label>Date</label>
+  <input type="date"
+         id="dateInput"
+         min="2026-05-01"
+         max="2026-05-31"
+         onchange="updateProgress()" />
+</div>
 </div>
   <div class="card">
     <div class="card-title">🍽️ Restaurant</div>
