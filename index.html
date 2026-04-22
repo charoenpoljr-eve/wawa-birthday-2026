@@ -1206,9 +1206,9 @@
   })();
 
   // ── 💌 Send to Eve (Google Sheets via GET) ──
-  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyFAlgGVNkhmT3Lmc7dL2bghbQ04T6aUbFNRXa_VjpPtAoR3iAtoHc80Bm8JnzyK3UN1g/exec';
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbygpmD7JyXzOO5w4W3eyOjACjwqrdYSJ6zqXRx8jYG6dqJwQootExEaTtGWRFhKDmXaJw/exec';
 
-  async function sendToEve() {
+  function sendToEve() {
     const saved = JSON.parse(localStorage.getItem('bday-plan') || '{}');
     if (!saved.date && !saved.rest) { showToast('Plan is empty! 💕'); return; }
 
@@ -1216,24 +1216,23 @@
     btn.disabled = true;
     btn.textContent = '💌 Sending…';
 
-    try {
-      const params = new URLSearchParams({
-        date:   saved.date  || '',
-        time:   saved.time  || '',
-        rest:   saved.rest  || '',
-        cake:   saved.cake  || '',
-        gifts:  (saved.gifts   || []).join(', '),
-        wishes: (saved.wishes  || []).join(', '),
-        note:   saved.note  || ''
-      });
-      await fetch(APPS_SCRIPT_URL + '?' + params, { mode: 'no-cors' });
+    const params = new URLSearchParams({
+      date:   saved.date  || '',
+      time:   saved.time  || '',
+      rest:   saved.rest  || '',
+      cake:   saved.cake  || '',
+      gifts:  (saved.gifts   || []).join(', '),
+      wishes: (saved.wishes  || []).join(', '),
+      note:   saved.note  || ''
+    });
+
+    // Image pixel trick — bypasses CORS redirect in Apps Script
+    const img = new Image();
+    img.onload = img.onerror = () => {
       btn.textContent = '✅ Sent to Eve!';
       showToast('Eve got your plan! 💖');
-    } catch (err) {
-      btn.disabled = false;
-      btn.textContent = '💌 Send to Eve';
-      showToast('Failed to send 😢');
-    }
+    };
+    img.src = APPS_SCRIPT_URL + '?' + params;
   }
 
   function editAgain() {
