@@ -375,6 +375,14 @@
   @keyframes fadeInMsg { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
   .action-row { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; margin-top: 1rem; }
   .action-row .btn { justify-content: center; }
+  .send-btn-wrap { margin-top: .7rem; }
+  .btn-send {
+    width: 100%; justify-content: center;
+    background: linear-gradient(135deg, #e07a95, #c45f80);
+    color: white; box-shadow: 0 6px 24px rgba(196,95,128,.35);
+  }
+  .btn-send:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(196,95,128,.45); }
+  .btn-send:disabled { opacity: .65; transform: none; cursor: not-allowed; }
 
   /* ── CAKE MODAL ── */
   .cake-modal-overlay {
@@ -553,7 +561,7 @@
   </div>
 <div class="card">
     <div class="card-title">🗓️ Date & Time</div>
-    <div class="input-row">
+    <div style="display:flex;flex-direction:column;gap:.8rem;">
       <div>
         <label>Date (May 2026)</label>
         <div class="cal-wrap">
@@ -657,6 +665,9 @@
   <div class="action-row">
     <button class="btn btn-soft" onclick="copyPlan()">📋 Copy Plan</button>
     <button class="btn btn-soft" onclick="editAgain()">✏️ Edit Again</button>
+  </div>
+  <div class="send-btn-wrap">
+    <button class="btn btn-send sparkle-btn" id="sendBtn" onclick="sendToEve()">💌 Send to Eve</button>
   </div>
 </section>
 
@@ -1072,6 +1083,33 @@
       '──────────────────────────', '✨ I just want to make your day perfect 💕', '  — Eve (Developer)'
     ].filter(Boolean).join('\n');
     navigator.clipboard.writeText(lines).then(() => showToast('Plan copied! 💕')).catch(() => showToast('Copy failed 😢'));
+  }
+
+  // ── 💌 Send to Eve (Google Sheets) ──
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyFAlgGVNkhmT3Lmc7dL2bghbQ04T6aUbFNRXa_VjpPtAoR3iAtoHc80Bm8JnzyK3UN1g/exec';
+
+  async function sendToEve() {
+    const saved = JSON.parse(localStorage.getItem('bday-plan') || '{}');
+    if (!saved.date && !saved.rest) { showToast('Plan is empty! 💕'); return; }
+
+    const btn = document.getElementById('sendBtn');
+    btn.disabled = true;
+    btn.textContent = '💌 Sending…';
+
+    try {
+      await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(saved)
+      });
+      btn.textContent = '✅ Sent to Eve!';
+      showToast('Eve got your plan! 💖');
+    } catch (err) {
+      btn.disabled = false;
+      btn.textContent = '💌 Send to Eve';
+      showToast('Failed to send 😢 Check your URL');
+    }
   }
 
   function editAgain() {
