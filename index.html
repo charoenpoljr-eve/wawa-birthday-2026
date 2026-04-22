@@ -265,6 +265,44 @@
     border-color: var(--rose);
   }
   .cal-day.empty { cursor: default; pointer-events: none; }
+
+  /* ── Wawa Birthday Cell ── */
+  .cal-day.wawa-bday {
+    border-radius: 50%;
+    border: 2px dashed var(--rose-deep) !important;
+    position: relative;
+    aspect-ratio: unset;
+    flex-direction: column;
+    padding: 3px 2px 2px;
+    gap: 0;
+  }
+  .cal-day.wawa-bday::before,
+  .cal-day.wawa-bday::after {
+    content: '♡';
+    position: absolute;
+    font-size: .55rem;
+    color: var(--rose-deep);
+    opacity: .75;
+    pointer-events: none;
+  }
+  .cal-day.wawa-bday::before { top: -1px; left: 50%; transform: translateX(-50%); }
+  .cal-day.wawa-bday::after  { bottom: -1px; left: 50%; transform: translateX(-50%); }
+  .cal-day.wawa-bday .wb-num {
+    font-size: .82rem; font-weight: 600; color: var(--text); line-height: 1.1;
+  }
+  .cal-day.wawa-bday .wb-label {
+    font-size: .38rem; color: var(--rose-deep); font-weight: 700;
+    letter-spacing: .02em; line-height: 1.1; white-space: nowrap;
+  }
+  .cal-day.wawa-bday .wb-tag {
+    font-size: .38rem; color: var(--text-light); font-weight: 400;
+    letter-spacing: .02em; line-height: 1.1; white-space: nowrap; font-style: italic;
+  }
+  .cal-day.wawa-bday.selected .wb-num,
+  .cal-day.wawa-bday.selected .wb-label,
+  .cal-day.wawa-bday.selected .wb-tag { color: #fff; }
+  .cal-day.wawa-bday.selected::before,
+  .cal-day.wawa-bday.selected::after { color: rgba(255,255,255,.8); }
   .cal-selected-label {
     text-align: center; margin-top: .5rem;
     font-size: .8rem; color: var(--rose-deep);
