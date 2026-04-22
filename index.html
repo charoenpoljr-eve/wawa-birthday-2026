@@ -1072,7 +1072,7 @@
 
   function addField(type) {
     const listId = type === 'gift' ? 'giftList' : 'wishList';
-    const placeholder = type === 'gift' ? 'e.g. a bouquet of peonies 🌸' : 'e.g. watch the sunset together 🌅';
+    const placeholder = type === 'gift' ? 'e.g. AirPods, an iPad, or a MacBook 🎧💻✨' : 'e.g. e.g. watch a movie or head to a cozy bar after 🌅';
     const list = document.getElementById(listId);
     const row = document.createElement('div'); row.className = 'field-row';
     const inp = document.createElement('input'); inp.type = 'text'; inp.placeholder = placeholder; inp.oninput = updateProgress;
