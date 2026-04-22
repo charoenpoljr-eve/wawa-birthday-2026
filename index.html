@@ -487,13 +487,11 @@
     <h2>Wawa's Day 🐰</h2>
   </div>
   </div>
- 
 <div class="card">
-  <div class="card-title">🗓️ Date & Time</div>
-  <div class="input-row">
-    <div>
-      <label>Date (May 2026)</label>
-      <div style="display:flex;gap:.5rem;flex-direction:column;">
+    <div class="card-title">🗓️ Date & Time</div>
+    <div class="input-row">
+      <div>
+        <label>Date (May 2026)</label>
         <div style="display:flex;gap:.5rem;align-items:center;">
           <select id="dateDay" onchange="buildDateValue()" style="flex:1;padding:.75rem .6rem;border:1.5px solid rgba(244,167,185,.5);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:.95rem;color:#5a3a47;background:#fdf0f5;outline:none;appearance:none;-webkit-appearance:none;text-align:center;cursor:pointer;">
             <option value="">Day</option>
@@ -511,16 +509,14 @@
           </select>
           <span style="color:#9e7287;font-size:.9rem;white-space:nowrap;flex-shrink:0;">May 2026</span>
         </div>
-        <div id="weekdayLabel" style="color:var(--rose-deep); font-weight:bold; font-size:0.85rem; margin-top:5px; min-height:1.2rem;"></div>
+        <input type="hidden" id="dateInput" />
       </div>
-      <input type="hidden" id="dateInput" />
-    </div>
-    <div>
-      <label>Time</label>
-      <input type="time" id="timeInput" onchange="updateProgress()" />
+      <div>
+        <label>Time</label>
+        <input type="time" id="timeInput" onchange="updateProgress()" />
+      </div>
     </div>
   </div>
-</div>
   <div class="card">
     <div class="card-title">🍽️ Restaurant</div>
     <div class="options-grid" id="restGrid">
