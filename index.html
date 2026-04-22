@@ -487,26 +487,39 @@
     <h2>Wawa's Day 🐰</h2>
   </div>
   </div>
-  <div class="card">
-    <div class="card-title">🗓️ Date & Time</div>
-    <div class="input-row">
-      <div>
-        <label>Date (May 2026)</label>
+ 
+<div class="card">
+  <div class="card-title">🗓️ Date & Time</div>
+  <div class="input-row">
+    <div>
+      <label>Date (May 2026)</label>
+      <div style="display:flex;gap:.5rem;flex-direction:column;">
         <div style="display:flex;gap:.5rem;align-items:center;">
-          <select id="dateDay" onchange="buildDateValue()" style="...">
-            </select>
+          <select id="dateDay" onchange="buildDateValue()" style="flex:1;padding:.75rem .6rem;border:1.5px solid rgba(244,167,185,.5);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:.95rem;color:#5a3a47;background:#fdf0f5;outline:none;appearance:none;-webkit-appearance:none;text-align:center;cursor:pointer;">
+            <option value="">Day</option>
+            <option value="01">1</option><option value="02">2</option><option value="03">3</option>
+            <option value="04">4</option><option value="05">5</option><option value="06">6</option>
+            <option value="07">7</option><option value="08">8</option><option value="09">9</option>
+            <option value="10">10</option><option value="11">11</option><option value="12">12</option>
+            <option value="13">13</option><option value="14">14</option><option value="15">15</option>
+            <option value="16">16</option><option value="17">17</option><option value="18">18</option>
+            <option value="19">19</option><option value="20">20</option><option value="21">21</option>
+            <option value="22">22</option><option value="23">23</option><option value="24">24</option>
+            <option value="25">25</option><option value="26">26</option><option value="27">27</option>
+            <option value="28">28</option><option value="29">29</option><option value="30">30</option>
+            <option value="31">31</option>
+          </select>
           <span style="color:#9e7287;font-size:.9rem;white-space:nowrap;flex-shrink:0;">May 2026</span>
         </div>
-        
-        <div id="weekdayLabel" style="color:#e07a95; font-size:.85rem; font-weight:bold; margin-top:5px; min-height:1.2rem;"></div>
-        
-        <input type="hidden" id="dateInput" />
+        <div id="weekdayLabel" style="color:var(--rose-deep); font-weight:bold; font-size:0.85rem; margin-top:5px; min-height:1.2rem;"></div>
       </div>
-      <div>
-        <label>Time</label>
-        <input type="time" id="timeInput" onchange="updateProgress()" />
-      </div>
+      <input type="hidden" id="dateInput" />
     </div>
+    <div>
+      <label>Time</label>
+      <input type="time" id="timeInput" onchange="updateProgress()" />
+    </div>
+  </div>
 </div>
   <div class="card">
     <div class="card-title">🍽️ Restaurant</div>
