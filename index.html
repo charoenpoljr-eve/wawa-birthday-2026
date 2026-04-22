@@ -265,44 +265,6 @@
     border-color: var(--rose);
   }
   .cal-day.empty { cursor: default; pointer-events: none; }
-
-  /* ── Wawa Birthday Cell ── */
-  .cal-day.wawa-bday {
-    border-radius: 50%;
-    border: 2px dashed var(--rose-deep) !important;
-    position: relative;
-    aspect-ratio: unset;
-    flex-direction: column;
-    padding: 3px 2px 2px;
-    gap: 0;
-  }
-  .cal-day.wawa-bday::before,
-  .cal-day.wawa-bday::after {
-    content: '♡';
-    position: absolute;
-    font-size: .55rem;
-    color: var(--rose-deep);
-    opacity: .75;
-    pointer-events: none;
-  }
-  .cal-day.wawa-bday::before { top: -1px; left: 50%; transform: translateX(-50%); }
-  .cal-day.wawa-bday::after  { bottom: -1px; left: 50%; transform: translateX(-50%); }
-  .cal-day.wawa-bday .wb-num {
-    font-size: .82rem; font-weight: 600; color: var(--text); line-height: 1.1;
-  }
-  .cal-day.wawa-bday .wb-label {
-    font-size: .38rem; color: var(--rose-deep); font-weight: 700;
-    letter-spacing: .02em; line-height: 1.1; white-space: nowrap;
-  }
-  .cal-day.wawa-bday .wb-tag {
-    font-size: .38rem; color: var(--text-light); font-weight: 400;
-    letter-spacing: .02em; line-height: 1.1; white-space: nowrap; font-style: italic;
-  }
-  .cal-day.wawa-bday.selected .wb-num,
-  .cal-day.wawa-bday.selected .wb-label,
-  .cal-day.wawa-bday.selected .wb-tag { color: #fff; }
-  .cal-day.wawa-bday.selected::before,
-  .cal-day.wawa-bday.selected::after { color: rgba(255,255,255,.8); }
   .cal-selected-label {
     text-align: center; margin-top: .5rem;
     font-size: .8rem; color: var(--rose-deep);
@@ -688,7 +650,7 @@
   <div class="form-header">
     <img id="wawaHeaderImg" style="width:88px;height:88px;object-fit:cover;border-radius:50%;display:block;margin:0 auto .8rem;box-shadow:0 4px 20px rgba(224,122,149,.3);border:3px solid #fce4ec;" />
     <h2>Wawa's Day 🐰</h2>
- </div>
+  </div>
   </div>
 <div class="card">
     <div class="card-title">🗓️ Date & Time</div>
@@ -1008,8 +970,7 @@
       const cell = document.createElement('div');
       cell.className = 'cal-day';
       if (d === 2) {
-        cell.classList.add('wawa-bday');
-        cell.innerHTML = '<span class="wb-num">' + d + '</span><span class="wb-label">wawa🎂</span><span class="wb-tag">* Wawa\'s birthday</span>';
+        cell.innerHTML = '<span style="line-height:1">' + d + '</span><span style="display:block;font-size:.45rem;color:#e07a95;font-weight:700;line-height:1;margin-top:1px">wawa🎂</span>';
       } else {
         cell.textContent = d;
       }
@@ -1109,16 +1070,6 @@
   })();
 
   // ── Polaroid tap ──
-  let _polaroidIdleTimer = null;
-
-  function _resetPolaroid() {
-    const bt = document.getElementById('bounceText');
-    const cap = document.getElementById('polCaption');
-    bt.classList.remove('show');
-    cap.style.opacity = '1';
-    tapCount = 0;
-  }
-
   function tapPolaroid() {
     tapCount++;
     const bt = document.getElementById('bounceText');
@@ -1143,10 +1094,6 @@
     ];
     main.textContent = msgs[(tapCount - 1) % msgs.length];
     count.textContent = tapCount > 1 ? `tapped ${tapCount} times 💕` : '';
-
-    // Reset idle timer — if no tap within 3s, go back to original state
-    clearTimeout(_polaroidIdleTimer);
-    _polaroidIdleTimer = setTimeout(_resetPolaroid, 3000);
   }
 
   function addField(type) {
