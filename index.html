@@ -764,10 +764,12 @@
       </div>
       <div id="restSearchMap" style="display:none;margin-top:.7rem;border-radius:14px;overflow:hidden;border:1.5px solid rgba(244,167,185,.4);">
         <iframe id="restSearchFrame" width="100%" height="200" style="border:0;display:block;" allowfullscreen="" loading="lazy"></iframe>
-        <div style="padding:.5rem .9rem;background:linear-gradient(135deg,#fce4ec,#fdf0f5);font-size:.82rem;color:#5a3a47;">
+        <div style="padding:.5rem .9rem;background:linear-gradient(135deg,#fce4ec,#fdf0f5);font-size:.82rem;color:#5a3a47;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.4rem;">
           <a id="restSearchMapsLink" href="#" target="_blank" style="color:#e07a95;font-weight:500;text-decoration:none;">🗺️ Open in Google Maps ↗</a>
+          <button onclick="confirmRestSearch()" style="background:#e07a95;color:#fff;border:none;border-radius:20px;padding:.35rem .9rem;font-size:.82rem;font-weight:600;cursor:pointer;">✓ Choose this place</button>
         </div>
       </div>
+      <div id="restSearchConfirmed" style="display:none;margin-top:.5rem;padding:.45rem .9rem;background:linear-gradient(135deg,#fce4ec,#fdf0f5);border-radius:10px;font-size:.85rem;color:#5a3a47;font-weight:500;"></div>
     </div>
   </div>
   <div class="card">
@@ -798,8 +800,9 @@
       </div>
       <div id="cakeSearchMap" style="display:none;margin-top:.7rem;border-radius:14px;overflow:hidden;border:1.5px solid rgba(244,167,185,.4);">
         <iframe id="cakeSearchFrame" width="100%" height="200" style="border:0;display:block;" allowfullscreen="" loading="lazy"></iframe>
-        <div style="padding:.5rem .9rem;background:linear-gradient(135deg,#fce4ec,#fdf0f5);font-size:.82rem;color:#5a3a47;">
+        <div style="padding:.5rem .9rem;background:linear-gradient(135deg,#fce4ec,#fdf0f5);font-size:.82rem;color:#5a3a47;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.4rem;">
           <a id="cakeSearchMapsLink" href="#" target="_blank" style="color:#e07a95;font-weight:500;text-decoration:none;">🗺️ Open in Google Maps ↗</a>
+          <button onclick="confirmCakeSearch()" style="background:#e07a95;color:#fff;border:none;border-radius:20px;padding:.35rem .9rem;font-size:.82rem;font-weight:600;cursor:pointer;">✓ Choose this place</button>
         </div>
       </div>
     </div>
@@ -1151,6 +1154,15 @@
   })();
 
   // ── Polaroid tap ──
+  let polaroidResetTimer = null;
+
+  function resetPolaroid() {
+    const bt = document.getElementById('bounceText');
+    const cap = document.getElementById('polCaption');
+    bt.classList.remove('show');
+    cap.style.opacity = '1';
+  }
+
   function tapPolaroid() {
     tapCount++;
     const bt = document.getElementById('bounceText');
@@ -1175,6 +1187,10 @@
     ];
     main.textContent = msgs[(tapCount - 1) % msgs.length];
     count.textContent = tapCount > 1 ? `tapped ${tapCount} times 💕` : '';
+
+    // Auto-reset after 2 seconds of no tapping
+    clearTimeout(polaroidResetTimer);
+    polaroidResetTimer = setTimeout(resetPolaroid, 2000);
   }
 
   function addField(type) {
@@ -1315,7 +1331,16 @@
     document.getElementById('restSearchFrame').src = `https://maps.google.com/maps?q=${q}&output=embed&z=15`;
     document.getElementById('restSearchMapsLink').href = `https://www.google.com/maps/search/${q}`;
     document.getElementById('restSearchMap').style.display = 'block';
+    document.getElementById('restSearchConfirmed').style.display = 'none';
+    // don't save yet — wait for confirm
+  }
+  function confirmRestSearch() {
+    const query = document.getElementById('restSearchInput').value.trim();
+    if (!query) return;
     state.rest = query;
+    const el = document.getElementById('restSearchConfirmed');
+    el.textContent = '✓ Chosen: ' + query;
+    el.style.display = 'block';
     updateProgress();
   }
   function openCakeSearch() {
@@ -1324,6 +1349,7 @@
     if (card) card.classList.add('selected');
     document.getElementById('cakeSearch').style.display = 'block';
     document.getElementById('cakeSelectedLabel').style.display = 'none';
+    document.getElementById('cakeSearchMap').style.display = 'none';
     currentCakeShop = null;
     state.cake = '';
     updateProgress();
@@ -1335,10 +1361,15 @@
     document.getElementById('cakeSearchFrame').src = `https://maps.google.com/maps?q=${q}&output=embed&z=15`;
     document.getElementById('cakeSearchMapsLink').href = `https://www.google.com/maps/search/${q}`;
     document.getElementById('cakeSearchMap').style.display = 'block';
-    const lbl = document.getElementById('cakeSelectedLabel');
-    lbl.textContent = '✓ Selected: ' + query;
-    lbl.style.display = 'block';
+    // don't save yet — wait for confirm
+  }
+  function confirmCakeSearch() {
+    const query = document.getElementById('cakeSearchInput').value.trim();
+    if (!query) return;
     state.cake = query;
+    const lbl = document.getElementById('cakeSelectedLabel');
+    lbl.textContent = '✓ Chosen: ' + query;
+    lbl.style.display = 'block';
     updateProgress();
   }
   function showReaction(msg, el) {
